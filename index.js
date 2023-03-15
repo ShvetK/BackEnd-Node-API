@@ -17,10 +17,8 @@ var users = [
   },
 ];
 
-var id = 2;
-
 app.get("/users", (req, res) => {
-  res.json({
+  res.status(200).json({
     message: "Users retrieved",
     success: true,
     users: users,
@@ -40,12 +38,12 @@ app.put("/update/:id", (req, res) => {
     }
   });
   if (flag) {
-    res.json({
+    res.status(200).json({
       message: "User updated",
       success: true,
     });
   } else {
-    res.json({
+    res.status(404).json({
       message: `ID ${id} is not available in list`,
       success: false,
     });
@@ -53,14 +51,15 @@ app.put("/update/:id", (req, res) => {
 });
 
 app.post("/add", (req, res) => {
+  console.log();
   const newEmail = req.body.email;
   const newFirstname = req.body.firstname;
   users.push({
     email: newEmail,
     firstname: newFirstname,
-    id: String(++id),
+    id: String(++users.length),
   });
-  res.json({
+  res.status(200).json({
     message: "User added",
     success: true,
   });
@@ -72,14 +71,14 @@ app.get("/user/:id", (req, res) => {
   users.forEach((user) => {
     if (user.id == id) {
       flag = false;
-      res.json({
+      res.status(200).json({
         success: true,
         user: user,
       });
     }
   });
   if (flag) {
-    res.json({
+    res.status(400).json({
       success: false,
       message: `ID ${id} is not available in list`,
     });
