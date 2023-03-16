@@ -30,39 +30,63 @@ app.put("/update/:id", (req, res) => {
   const newEmail = req.body.email;
   const newFirstname = req.body.firstname;
   var flag = false;
-  users.forEach((user) => {
-    if (user.id == id) {
-      user.firstname = newFirstname;
-      user.email = newEmail;
-      flag = true;
-    }
-  });
-  if (flag) {
-    res.status(200).json({
-      message: "User updated",
-      success: true,
-    });
-  } else {
-    res.status(404).json({
-      message: `ID ${id} is not available in list`,
+
+  if (
+    newEmail == "" ||
+    newEmail == null ||
+    newFirstname == "" ||
+    newFirstname == null
+  ) {
+    res.status(400).json({
+      message: "Invalide Input",
       success: false,
     });
+  } else {
+    users.forEach((user) => {
+      if (user.id == id) {
+        user.firstname = newFirstname;
+        user.email = newEmail;
+        flag = true;
+      }
+    });
+    if (flag) {
+      res.status(200).json({
+        message: "User updated",
+        success: true,
+      });
+    } else {
+      res.status(404).json({
+        message: `ID ${id} is not available in list`,
+        success: false,
+      });
+    }
   }
 });
 
 app.post("/add", (req, res) => {
-  console.log();
   const newEmail = req.body.email;
   const newFirstname = req.body.firstname;
-  users.push({
-    email: newEmail,
-    firstname: newFirstname,
-    id: String(++users.length),
-  });
-  res.status(200).json({
-    message: "User added",
-    success: true,
-  });
+  if (
+    newEmail == "" ||
+    newEmail == null ||
+    newFirstname == "" ||
+    newFirstname == null
+  ) {
+    res.status(400).json({
+      message: "Invalide Input",
+      success: false,
+    });
+  } else {
+    users.push({
+      email: newEmail,
+      firstname: newFirstname,
+      id: String(++users.length),
+    });
+    res.status(200).json({
+      message: "User added",
+      success: true,
+    });
+  }
 });
 
 app.get("/user/:id", (req, res) => {
@@ -79,8 +103,8 @@ app.get("/user/:id", (req, res) => {
   });
   if (flag) {
     res.status(400).json({
-      success: false,
       message: `ID ${id} is not available in list`,
+      success: false,
     });
   }
 });
