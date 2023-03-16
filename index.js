@@ -31,28 +31,45 @@ app.put("/update/:id", (req, res) => {
   const newFirstname = req.body.firstname;
   var flag = false;
 
-  if (newEmail == undefined || newFirstname == undefined) {
+  if (newEmail == undefined && newFirstname == undefined) {
     res.status(400).json({
-      message: "Invalide Input",
+      message: "Invalide Input email and firstname is not available",
       success: false,
     });
   } else {
-    users.forEach((user) => {
-      if (user.id == id) {
-        user.firstname = newFirstname;
-        user.email = newEmail;
-        flag = true;
-      }
-    });
-    if (flag) {
+    if (newEmail == undefined) {
+      users.forEach((user) => {
+        if (user.id == id) {
+          user.firstname = newFirstname;
+          flag = true;
+        }
+      });
       res.status(200).json({
-        message: "User updated",
+        message: "firstname updated",
+        success: true,
+      });
+    } else if (newFirstname == undefined) {
+      users.forEach((user) => {
+        if (user.id == id) {
+          user.email = newEmail;
+          flag = true;
+        }
+      });
+      res.status(200).json({
+        message: "email updated",
         success: true,
       });
     } else {
-      res.status(404).json({
-        message: `ID ${id} is not available in list`,
-        success: false,
+      users.forEach((user) => {
+        if (user.id == id) {
+          user.firstname = newFirstname;
+          user.email = newEmail;
+          flag = true;
+        }
+      });
+      res.status(200).json({
+        message: "User updated",
+        success: true,
       });
     }
   }
