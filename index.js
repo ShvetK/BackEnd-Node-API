@@ -31,12 +31,7 @@ app.put("/update/:id", (req, res) => {
   const newFirstname = req.body.firstname;
   var flag = false;
 
-  if (
-    newEmail == "" ||
-    newEmail == null ||
-    newFirstname == "" ||
-    newFirstname == null
-  ) {
+  if (newEmail == undefined || newFirstname == undefined) {
     res.status(400).json({
       message: "Invalide Input",
       success: false,
@@ -66,21 +61,17 @@ app.put("/update/:id", (req, res) => {
 app.post("/add", (req, res) => {
   const newEmail = req.body.email;
   const newFirstname = req.body.firstname;
-  if (
-    newEmail == "" ||
-    newEmail == null ||
-    newFirstname == "" ||
-    newFirstname == null
-  ) {
+  if (newEmail == undefined || newFirstname == undefined) {
     res.status(400).json({
       message: "Invalide Input",
       success: false,
     });
   } else {
+    id = users.length;
     users.push({
       email: newEmail,
       firstname: newFirstname,
-      id: String(++users.length),
+      id: String(++id),
     });
     res.status(200).json({
       message: "User added",
