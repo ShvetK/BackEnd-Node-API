@@ -7,12 +7,12 @@ app.use(express.json());
 var users = [
   {
     email: "abc@dal.ca",
-    firstname: "ABC",
+    firstName: "ABC",
     id: "1",
   },
   {
     email: "xyz@dal.ca",
-    firstname: "XYZ",
+    firstName: "XYZ",
     id: "2",
   },
 ];
@@ -28,7 +28,7 @@ app.get("/users", (req, res) => {
 app.put("/update/:id", (req, res) => {
   const id = req.params.id;
   const newEmail = req.body.email;
-  const newFirstname = req.body.firstname;
+  const newFirstname = req.body.firstName;
   var flag = false;
 
   if (newEmail == undefined && newFirstname == undefined) {
@@ -40,7 +40,7 @@ app.put("/update/:id", (req, res) => {
     if (newEmail == undefined) {
       users.forEach((user) => {
         if (user.id == id) {
-          user.firstname = newFirstname;
+          user.firstName = newFirstname;
           flag = true;
         }
       });
@@ -62,7 +62,7 @@ app.put("/update/:id", (req, res) => {
     } else {
       users.forEach((user) => {
         if (user.id == id) {
-          user.firstname = newFirstname;
+          user.firstName = newFirstname;
           user.email = newEmail;
           flag = true;
         }
@@ -77,7 +77,7 @@ app.put("/update/:id", (req, res) => {
 
 app.post("/add", (req, res) => {
   const newEmail = req.body.email;
-  const newFirstname = req.body.firstname;
+  const newFirstname = req.body.firstName;
   if (newEmail == undefined || newFirstname == undefined) {
     res.status(400).json({
       message: "Invalide Input",
@@ -87,7 +87,7 @@ app.post("/add", (req, res) => {
     id = users.length;
     users.push({
       email: newEmail,
-      firstname: newFirstname,
+      firstName: newFirstname,
       id: String(++id),
     });
     res.status(200).json({
